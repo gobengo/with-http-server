@@ -1,0 +1,16 @@
+{
+  "name": "with-http-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index",
+  "types": "dist/index",
+  "license": "GPL-3.0",
+  "scripts": {
+    "build": "npm run compile",
+    "compile": "tsc -b tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.3",
+    "typescript": "^3.5.3"
+  }
+}
