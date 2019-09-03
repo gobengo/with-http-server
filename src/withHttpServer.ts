@@ -1,6 +1,7 @@
 import * as http from "http";
 
 interface IServerInfo {
+  server: http.Server;
   url: string;
 }
 
@@ -24,7 +25,7 @@ export const withHttpServer = (
   }
   const { address, port } = addressInfo;
   const url = `http://${address}:${port}`;
-  const ret = await doWorkWithServer({ url });
+  const ret = await doWorkWithServer({ server: httpServer, url });
   await new Promise((resolve, reject) => {
     httpServer.close(error => (error ? reject(error) : resolve()));
   });
