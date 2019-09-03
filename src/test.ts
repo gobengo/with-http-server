@@ -6,7 +6,8 @@ async function main() {
     res.writeHead(200, { 'Content-Type': 'text/plain' });
     res.end('okay');
   };
-  await withHttpServer(httpListener)(async ({ url }) => {
+  const httpServer = http.createServer(httpListener);
+  await withHttpServer(httpServer)(async ({ url }) => {
     const response: http.IncomingMessage = await new Promise((resolve) => http.get(url, resolve));
     console.log({ statusCode: response.statusCode });
     /** do something with the response */

@@ -10,10 +10,13 @@ type AsyncServerContextManager = (
   doWorkWithServer: DoWorkWithServer
 ) => Promise<any>;
 
+type MaybePromise<T> = T | PromiseLike<T>;
+
 export const withHttpServer = (
-  requestListener: Promise<http.RequestListener> | http.RequestListener
+  requestListenerOrServer: MaybePromise<http.Server | http.RequestListener>
 ): AsyncServerContextManager => async (doWorkWithServer: DoWorkWithServer) => {
-  const httpServer = http.createServer(await requestListener);
+  const promised = await Promise.resolve(requestListenerOrServer);
+  const httpServer: http.Server = (typeof promised === "function") ? http.createServer(promised) : promised;
   await new Promise((resolve, reject) => {
     httpServer.listen(0, "127.0.0.1", resolve);
   });
